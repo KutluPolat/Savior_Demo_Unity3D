@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnUnits : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private SpawnSaver _spawn; 
+    
     void Start()
     {
-        
+        _spawn = new SpawnSaver();
     }
 
-    // Update is called once per frame
     void Update()
     {
         
