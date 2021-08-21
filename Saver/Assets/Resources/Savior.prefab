@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3636343765092150117}
   - component: {fileID: 3636343765092150114}
   m_Layer: 0
-  m_Name: Saver
+  m_Name: Savior
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    private SpawnSaver _spawn; 
+    private SpawnSavior _spawn; 
     
     void Start()
     {
-        _spawn = new SpawnSaver();
+        _spawn = new SpawnSavior();
     }
 
     void Update()
     {
-        
     }
 }

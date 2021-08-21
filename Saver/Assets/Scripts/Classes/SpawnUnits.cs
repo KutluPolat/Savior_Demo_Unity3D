@@ -16,7 +16,7 @@ public class SpawnUnits : SetSpawnableArea
         {
         tryagain:
 
-            int xPosition = (int)Random.Range(_xPositionMinimum, _xPositionMaximum); //I used casting for convert float Random.Range value to int.
+            int xPosition = (int)Random.Range(_xPositionMinimum, _xPositionMaximum); //I used casting for converting Random.Range float value to int.
             int zPosition = (int)Random.Range(_zPositionMinimum, _zPositionMaximum);
 
             if (CheckForOverlap(xPosition, zPosition))
@@ -25,17 +25,17 @@ public class SpawnUnits : SetSpawnableArea
             }
             else
             {
-                _coordinatesOfUnits.Add((xPosition, zPosition));
-                Debug.Log("Spawned xpos: " + xPosition + " Spawned zpos: " + zPosition);
-
-                MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 1, zPosition), Quaternion.identity);
+                _coordinatesOfUnits.Add((xPosition, zPosition)); //Adding used positions to _coordinatesOfUnits list so I can check overlapping later.
+                var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 1, zPosition), Quaternion.identity) as GameObject;
+                rescuableObject.transform.parent = GameObject.Find("Rescuables").transform;
             }
         }
+
         for (int i = 0; i < _numberOfNotRescuableUnits; i++)
         {
         tryagain:
 
-            int xPosition = (int)Random.Range(_xPositionMinimum, _xPositionMaximum); //I used casting for convert float Random.Range value to int.
+            int xPosition = (int)Random.Range(_xPositionMinimum, _xPositionMaximum);
             int zPosition = (int)Random.Range(_zPositionMinimum, _zPositionMaximum);
 
             if (CheckForOverlap(xPosition, zPosition))
@@ -45,9 +45,8 @@ public class SpawnUnits : SetSpawnableArea
             else
             {
                 _coordinatesOfUnits.Add((xPosition, zPosition));
-                Debug.Log("Spawned xpos: " + xPosition + " Spawned zpos: " + zPosition);
-
-                MonoBehaviour.Instantiate(Resources.Load("NotRescuable"), new Vector3(xPosition, 1, zPosition), Quaternion.identity);
+                var notRescuableObject = MonoBehaviour.Instantiate(Resources.Load("NotRescuable"), new Vector3(xPosition, 1, zPosition), Quaternion.identity) as GameObject;
+                notRescuableObject.transform.parent = GameObject.Find("NotRescuables").transform;
             }
         }
     }
