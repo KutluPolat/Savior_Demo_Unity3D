@@ -6,6 +6,7 @@ public class SpawnUnits : SetSpawnableArea
 {
     private int _numberOfRescuableUnits, _numberOfNotRescuableUnits;
     private List<(int, int)> _coordinatesOfUnits = new List<(int, int)>();
+    public List<GameObject> RescuableUnits = new List<GameObject>();
 
     public SpawnUnits()
     {
@@ -28,6 +29,7 @@ public class SpawnUnits : SetSpawnableArea
                 _coordinatesOfUnits.Add((xPosition, zPosition)); //Adding used positions to _coordinatesOfUnits list so I can check overlapping later.
                 var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 1, zPosition), Quaternion.identity) as GameObject;
                 rescuableObject.transform.parent = GameObject.Find("Rescuables").transform;
+                RescuableUnits.Add(rescuableObject);
             }
         }
 

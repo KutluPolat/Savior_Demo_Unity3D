@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static SpawnSavior Spawn;
     public static SaviorClass Savior;
-
+   
 
     void Start()
     {
@@ -17,5 +17,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Savior = new SaviorClass(FindObjectOfType<SaviorObject>());
+        
     }
 }

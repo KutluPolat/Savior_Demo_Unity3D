@@ -35,6 +35,8 @@ public class RescuableObject : MonoBehaviour
         if(Vector3.Distance(gameObject.transform.position, _positionBeneathPlane) < 0.1f)
         {
             GameManager.Spawn.SpawnSaviorObject();
+
+            GameManager.Spawn.RescuableUnits.Remove(gameObject);
             Destroy(gameObject);
         }
     }

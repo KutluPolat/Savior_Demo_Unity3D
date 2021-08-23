@@ -8,8 +8,6 @@ public class NotRescuableObject : SaviorObject
 
     private void Update()
     {
-        Debug.Log("Is hit to resc: " + GameManager.Savior.HitToRescuable);
-        Debug.Log("Is hit to not resc: " + GameManager.Savior.HitToNotRescuable);
         RayCast();
     }
 
@@ -24,7 +22,6 @@ public class NotRescuableObject : SaviorObject
             {
                 if (gameObject.transform.position == hit.transform.position && _savior != null)
                 {
-                    Debug.Log("Start Coroutine");
                     StartCoroutine(InstantiateNewSaviorAndDestroyTheOldOne());
                 }
             }

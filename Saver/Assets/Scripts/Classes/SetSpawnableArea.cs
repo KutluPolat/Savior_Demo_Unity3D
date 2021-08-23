@@ -16,8 +16,5 @@ public class SetSpawnableArea
 
         _zPositionMinimum = _rightBottomPoint.transform.position.z;
         _zPositionMaximum = _leftTopPoint.transform.position.z;
-
-        Debug.Log("Xmin: " + _xPositionMinimum + " Xmax: " + _xPositionMaximum);
-        Debug.Log("Zmin: " + _zPositionMinimum + " Zmax: " + _zPositionMaximum);
     }
 }

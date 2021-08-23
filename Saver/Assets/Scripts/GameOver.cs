@@ -58,13 +58,11 @@ public class GameOver : MonoBehaviour
     private IEnumerator Restart()
     {
         GameOverText.gameObject.SetActive(true);
-        RestartsInText.gameObject.SetActive(true);
         RestartsInText.text = "The game will be restart in 3 seconds.";
         _time = 3f;
 
         yield return new WaitForSeconds(3f);
 
-        Debug.Log("Restart");
         SceneManager.LoadScene("FirstLevel");
     }
 
