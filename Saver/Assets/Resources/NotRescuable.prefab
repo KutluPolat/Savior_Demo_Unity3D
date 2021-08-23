@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7882878758581732975}
   - component: {fileID: 7882878758581732974}
   - component: {fileID: 7882878758581732977}
-  - component: {fileID: 4955821268878533183}
+  - component: {fileID: 9141456927561244983}
   m_Layer: 6
   m_Name: NotRescuable
   m_TagString: NotRescuable
@@ -91,13 +91,13 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7882878758581732976}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4955821268878533183
+--- !u!114 &9141456927561244983
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
