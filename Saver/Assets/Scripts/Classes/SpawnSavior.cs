@@ -9,7 +9,6 @@ public class SpawnSavior : SpawnUnits
     {
         var screenBottomCenter = new Vector3(Display.main.systemWidth / 2, Display.main.systemHeight / 10, 5);
         _initialPlayerSpawnPoint = Camera.main.ScreenToWorldPoint(screenBottomCenter);
-        SpawnSaviorObject();
     }
     public void SpawnSaviorObject()
     {

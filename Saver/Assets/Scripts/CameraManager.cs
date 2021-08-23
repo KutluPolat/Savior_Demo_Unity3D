@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    private Vector3 _initialPositionOfCamera;
+    private Vector3 _targetPositionToDestroyOfCamera;
     private Quaternion _initialRotationOfCamera;
    
     private void Start()
     {
-        _initialPositionOfCamera = transform.position;
+        _targetPositionToDestroyOfCamera = transform.position;
         _initialRotationOfCamera = transform.rotation;
     }
     private void FixedUpdate()
@@ -30,7 +30,7 @@ public class CameraManager : MonoBehaviour
     }
     private void ReturnToInitialPositionAndRotation()
     {
-        transform.position = Vector3.Lerp(transform.position, _initialPositionOfCamera, 0.1f);
+        transform.position = Vector3.Lerp(transform.position, _targetPositionToDestroyOfCamera, 0.1f);
         transform.rotation = _initialRotationOfCamera;
     }
 }

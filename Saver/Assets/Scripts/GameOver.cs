@@ -19,7 +19,7 @@ public class GameOver : MonoBehaviour
         SetRestartInText();
         
 
-        if (PlayerPrefs.GetInt("Lives") < 0 && _onlyOnce) // (base rule of this if statement && will make run this if statement only once.)
+        if (PlayerPrefs.GetInt("Lives") < 0 && _onlyOnce) // (base rule of this if statement) && (will make run this if statement only once.)
         {
             _onlyOnce = false;
             StartCoroutine(Restart());

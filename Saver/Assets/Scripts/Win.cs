@@ -19,7 +19,7 @@ public class Win : MonoBehaviour
 
     private IEnumerator Congratulations()
     {
-        //@ Konfeti animasyonu baslat.
+        //@ Confetti animation
         WinObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         NextLevelButton.SetActive(true);
