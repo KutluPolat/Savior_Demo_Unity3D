@@ -18,6 +18,8 @@ public class NotRescuableObject : SaviorObject
         else
             _moveTowardsLeft = true;
 
+        random += 0.5f; // Providing at least 0.5f of movement.
+
         _rightPoint = new Vector3(transform.position.x + random, transform.position.y, transform.position.z);
         _leftPoint = new Vector3(transform.position.x - random, transform.position.y, transform.position.z);
     }
@@ -25,11 +27,15 @@ public class NotRescuableObject : SaviorObject
     private void Update()
     {
         RayCast();
+    }
+    private void FixedUpdate()
+    {
         Move();
     }
 
     private void RayCast()
     {
+#if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0))
         {
             RaycastHit hit;
@@ -45,6 +51,25 @@ public class NotRescuableObject : SaviorObject
                 }
             }
         }
+#endif
+#if PLATFORM_ANDROID
+        if (Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
+
+            if (Physics.Raycast(ray, out hit, RayLength, LayerMask))
+            {
+                if (gameObject.transform.position == hit.transform.position && _savior != null)
+                {
+                    _animator.SetTrigger("VictoryPose");
+                    GameObject.Find("Savior(Clone)").GetComponent<Animator>().SetTrigger("Punched");
+                    StartCoroutine(InstantiateNewSaviorAndDestroyTheOldOne());
+                }
+            }
+        }
+#endif
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -60,7 +85,6 @@ public class NotRescuableObject : SaviorObject
     {
         GameObject.Find("Savior(Clone)").AddComponent<Rigidbody>(); //Because we want savior to snap off from the unit.
         gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
-        GameObject.Find("Savior(Clone)").GetComponent<SphereCollider>().isTrigger = false; //Because we want savior to snap off from the unit.
 
         yield return new WaitForSeconds(1f);
 
@@ -75,7 +99,7 @@ public class NotRescuableObject : SaviorObject
 
     private void Move()
     {
-        if(PlayerPrefs.GetInt("Level") <= 4)
+        if(PlayerPrefs.GetInt("Level") <= 3)
             return;
 
         if (_moveTowardsRight) 

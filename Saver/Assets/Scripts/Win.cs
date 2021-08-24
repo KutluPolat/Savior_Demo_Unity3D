@@ -17,6 +17,12 @@ public class Win : MonoBehaviour
         {
             _win = false;
             Confettis.SetActive(true);
+
+            foreach (GameObject sad in GameObject.FindGameObjectsWithTag("NotRescuable"))
+            {
+                sad.GetComponent<Animator>().SetTrigger("Defeated");
+            }
+
             StartCoroutine(Congratulations());
             StartCoroutine(Confetti());
         }
@@ -24,7 +30,6 @@ public class Win : MonoBehaviour
 
     private IEnumerator Congratulations()
     {
-        //@ Confetti animation
         WinObject.SetActive(true);
         yield return new WaitForSeconds(1f);
         NextLevelButton.SetActive(true);

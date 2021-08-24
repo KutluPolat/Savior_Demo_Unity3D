@@ -6,6 +6,8 @@ public class RescuableObject : SaviorObject
 {
     private Vector3 _normalYPos, _underPlaneYPos, _initialYPos;
 
+    private Vector2 _initialFingerPosition;
+
     private void Start()
     {
         _initialYPos = transform.position;
@@ -25,22 +27,59 @@ public class RescuableObject : SaviorObject
 
     void Update()
     {
-        GetSwiping();
         CheckForDestroy();
+    }
+    private void FixedUpdate()
+    {
+        GetSwiping();
         Move();
     }
 
     private void GetSwiping()
     {
         _normalYPos = new Vector3(transform.position.x, _initialYPos.y, transform.position.z);
-        _underPlaneYPos = new Vector3(_normalYPos.x, _initialYPos.y - 2.5f, _normalYPos.z);
+        _underPlaneYPos = new Vector3(_normalYPos.x, _initialYPos.y - 2f, _normalYPos.z);
 
+#if UNITY_EDITOR
         if (Input.GetKey(KeyCode.Space) && GameManager.Savior.Rescuable != null && GameManager.Savior.Rescuable.transform.position == gameObject.transform.position)
         {
             _animator.SetTrigger("Rescuing");
-            gameObject.transform.position = new Vector3 (transform.position.x, transform.position.y - 0.05f, transform.position.z);
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
         }
-        else if (Vector3.Distance(gameObject.transform.position, _normalYPos) > 0.05f)
+        else GoBackToIdlePosition();
+#endif
+
+#if PLATFORM_ANDROID
+        if (Input.touchCount > 0)
+        {
+            if (Input.touches[0].phase == TouchPhase.Began || Input.touches[0].phase == TouchPhase.Stationary)
+            {
+                // Basically, I'm saving the finger position when the player touches the screen the first time or holds still.
+                // And I compare that positions with new ones after player moved his finger.
+                // Rescuing action will start if the player moves his or her finger only in the y-axis. (Player has 50 pixels of the x-axis error margin.)
+                _initialFingerPosition = Input.touches[0].position;
+            }
+
+            if (Input.touches[0].phase == TouchPhase.Moved)
+            {
+                if (Input.touches[0].position.x > _initialFingerPosition.x + 50 || Input.touches[0].position.x < _initialFingerPosition.x - 50) //If finger moves in x axis, return.
+                {
+                    GoBackToIdlePosition();
+                    return;
+                }
+                if (Input.touches[0].position.y != _initialFingerPosition.y && GameManager.Savior.Rescuable != null && GameManager.Savior.Rescuable.transform.position == gameObject.transform.position)
+                {
+                    _animator.SetTrigger("Rescuing");
+                    gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - 0.05f, transform.position.z);
+                }
+            }
+        }
+        else GoBackToIdlePosition();
+#endif
+    }
+    private void GoBackToIdlePosition()
+    {
+        if (Vector3.Distance(gameObject.transform.position, _normalYPos) > 0.05f)
         {
             _animator.SetTrigger("Idle");
             gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _normalYPos, 0.025f);
@@ -59,7 +98,7 @@ public class RescuableObject : SaviorObject
     }
     private void Move()
     {
-        if (PlayerPrefs.GetInt("Level") <= 4 || Input.GetKey(KeyCode.Space))
+        if (PlayerPrefs.GetInt("Level") <= 3 || Input.GetKey(KeyCode.Space))
             return;
 
         if (_moveTowardsRight)

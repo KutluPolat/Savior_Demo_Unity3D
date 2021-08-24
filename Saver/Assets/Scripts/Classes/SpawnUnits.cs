@@ -10,10 +10,15 @@ public class SpawnUnits : SetSpawnableArea
 
     public SpawnUnits()
     {
-        _numberOfRescuableUnits = PlayerPrefs.GetInt("Level", 1) * 3; //With these equations, there will be 60% of Rescuable and 40% of NotRescuable units in every level.
-        _numberOfNotRescuableUnits = PlayerPrefs.GetInt("Level", 1) * 2;
+        if (PlayerPrefs.GetInt("Level") == 0)
+            PlayerPrefs.SetInt("Level", 1);
 
-        for(int i = 0; i < _numberOfRescuableUnits; i++)
+        _numberOfRescuableUnits = PlayerPrefs.GetInt("Level") * 3; //With these equations, there will be 60% of Rescuable and 40% of NotRescuable units in every level.
+        _numberOfNotRescuableUnits = PlayerPrefs.GetInt("Level") * 2;
+
+        //CheckPlaneSize();
+
+        for (int i = 0; i < _numberOfRescuableUnits; i++)
         {
         tryagain:
 
@@ -27,7 +32,7 @@ public class SpawnUnits : SetSpawnableArea
             else
             {
                 _coordinatesOfUnits.Add((xPosition, zPosition)); //Adding used positions to _coordinatesOfUnits list so I can check overlapping later.
-                var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 0.7f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
+                var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
                 rescuableObject.transform.parent = GameObject.Find("Rescuables").transform;
                 RescuableUnits.Add(rescuableObject);
             }
@@ -47,7 +52,7 @@ public class SpawnUnits : SetSpawnableArea
             else
             {
                 _coordinatesOfUnits.Add((xPosition, zPosition));
-                var notRescuableObject = MonoBehaviour.Instantiate(Resources.Load("NotRescuable"), new Vector3(xPosition, 0.7f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
+                var notRescuableObject = MonoBehaviour.Instantiate(Resources.Load("NotRescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
                 notRescuableObject.transform.parent = GameObject.Find("NotRescuables").transform;
             }
         }
@@ -64,5 +69,17 @@ public class SpawnUnits : SetSpawnableArea
         }
 
         return false;
+    }
+    private void CheckPlaneSize()
+    {
+        //x=13, z=25
+        var xBound = (int)Mathf.Abs(_xPositionMaximum - _xPositionMinimum);
+        var zBound = (int)Mathf.Abs(_zPositionMaximum - _zPositionMinimum);
+        // eðer xbound*zbound toplam unit sayýsýnýn %60ýndan küçükse plane büyüt kamera fov büyüt.
+        if(xBound*zBound*0.6f < _numberOfRescuableUnits + _numberOfNotRescuableUnits)
+        {
+            GameObject.Find("Plane(Grey)").transform.localScale = GameObject.Find("Plane(Grey)").transform.localScale * 1.1f;
+            //Camera.main.fieldOfView
+        }
     }
 }
