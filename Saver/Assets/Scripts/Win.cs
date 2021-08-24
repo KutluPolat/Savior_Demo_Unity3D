@@ -7,6 +7,7 @@ public class Win : MonoBehaviour
 {
     public ParticleSystem SphereConfetti1, SphereConfetti2, SphereConfetti3, ConeConfetti1, ConeConfetti2;
     public GameObject WinObject, NextLevelButton, Confettis;
+
     private bool _win = true;
     
 

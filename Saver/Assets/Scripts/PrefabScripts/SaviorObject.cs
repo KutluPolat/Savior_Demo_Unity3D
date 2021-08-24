@@ -9,12 +9,17 @@ public class SaviorObject : MonoBehaviour
     private int _lives = 3;
 
     private GameObject _rescuableUnitThatSaviorSticked;
-
+    
+    protected Animator _animator;
     protected readonly float RayLength = 100f;
     protected LayerMask LayerMask;
-    
+
+    protected Vector3 _rightPoint, _leftPoint; // These variables are used for making the units move slightly.
+    protected bool _moveTowardsRight, _moveTowardsLeft; // These variables are used for making the units move slightly.
+
     private void Start()
     {
+        _animator = gameObject.GetComponent<Animator>();
         LayerMask = LayerMask.GetMask("Units");
     }
 
@@ -52,6 +57,7 @@ public class SaviorObject : MonoBehaviour
                 _isSaviorHitToNotRescuable = false; //This line of code is to improve robustness
                 gameObject.transform.parent = other.transform;
                 Destroy(gameObject.GetComponent<Rigidbody>()); //With the destroy of rigidbody, the savior will stand still and will look like stick to the unit.
+                _animator.SetTrigger("Save");
 
                 break;
 
@@ -61,6 +67,7 @@ public class SaviorObject : MonoBehaviour
                 _isSaviorHitToRescuable = false; //Again, this line of code is to improve robustness
                 Destroy(gameObject.GetComponent<Rigidbody>()); //With the destroy of rigidbody, the savior will stand still and will look like stick to the unit.
                 PlayerPrefs.SetInt("Lives", PlayerPrefs.GetInt("Lives") - 1);
+                _animator.SetTrigger("FightBack");
 
                 break;
         }
@@ -69,11 +76,13 @@ public class SaviorObject : MonoBehaviour
     public IEnumerator MoveSaviorTowardsClickedUnit(GameObject clickedObject)
     {
         var rigidBody = gameObject.AddComponent<Rigidbody>();
+        _animator.SetTrigger("Fall");
 
         yield return new WaitForSeconds(1f);
 
         if (rigidBody != null) //To improve robustness
         {
+            _animator.SetTrigger("Fly");
             rigidBody.useGravity = false; //I'm disabling the gravity and resetting the velocity because we want gliding effect.
             rigidBody.velocity = Vector3.zero;
             var calculateForce = clickedObject.transform.position - gameObject.transform.position;

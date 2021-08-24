@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static SpawnSavior Spawn;
     public static SaviorClass Savior;
-    public TextMeshProUGUI Level;
+    public TextMeshProUGUI Level, Saved;
+
+    private int _baseRescuableCount;
 
     private void Awake()
     {
@@ -18,12 +20,13 @@ public class GameManager : MonoBehaviour
     {
         Spawn = new SpawnSavior(); //I declared _spawn in Start() because I use GameObject.Find() in SpawnSavior() and it's parent classes.
         Savior = new SaviorClass(FindObjectOfType<SaviorObject>());
+        _baseRescuableCount = Spawn.RescuableUnits.Count;
         Level.text = "Level: " + PlayerPrefs.GetInt("Level").ToString();
     }
 
     void Update()
     {
         Savior = new SaviorClass(FindObjectOfType<SaviorObject>());
-        
+        Saved.text = "Saved: " + (_baseRescuableCount - Spawn.RescuableUnits.Count).ToString();
     }
 }

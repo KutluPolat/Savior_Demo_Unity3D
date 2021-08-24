@@ -5,11 +5,10 @@ using UnityEngine;
 public class NotRescuableObject : SaviorObject
 {
     private GameObject _savior; //_savior = null means Savior object never collided with this NotRescuable object before.
-    private Vector3 _rightPoint, _leftPoint;
-    private bool _moveTowardsRight, _moveTowardsLeft;
 
     private void Start()
     {
+        _animator = gameObject.GetComponent<Animator>();
         LayerMask = LayerMask.GetMask("Units");
 
         var random = Random.Range(0f, 1f);
@@ -33,9 +32,6 @@ public class NotRescuableObject : SaviorObject
     {
         if (Input.GetMouseButtonUp(0))
         {
-            Debug.Log("Ray");
-            Debug.Log("RayLength: " + RayLength);
-            Debug.Log("LayerMask: " + LayerMask.value);
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -43,7 +39,8 @@ public class NotRescuableObject : SaviorObject
             {
                 if (gameObject.transform.position == hit.transform.position && _savior != null)
                 {
-                    Debug.Log("1111");
+                    _animator.SetTrigger("VictoryPose");
+                    GameObject.Find("Savior(Clone)").GetComponent<Animator>().SetTrigger("Punched");
                     StartCoroutine(InstantiateNewSaviorAndDestroyTheOldOne());
                 }
             }
@@ -52,14 +49,18 @@ public class NotRescuableObject : SaviorObject
 
     private void OnTriggerEnter(Collider other)
     {
-        _savior = other.gameObject;
+        if(other.tag == "Player")
+        {
+            _savior = other.gameObject;
+            _animator.SetTrigger("Sticked");
+        }
     }
 
     private IEnumerator InstantiateNewSaviorAndDestroyTheOldOne()
     {
         GameObject.Find("Savior(Clone)").AddComponent<Rigidbody>(); //Because we want savior to snap off from the unit.
-        GameObject.Find("Savior(Clone)").GetComponent<SphereCollider>().isTrigger = false; //Because we want savior to snap off from the unit.
         gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
+        GameObject.Find("Savior(Clone)").GetComponent<SphereCollider>().isTrigger = false; //Because we want savior to snap off from the unit.
 
         yield return new WaitForSeconds(1f);
 
@@ -68,6 +69,7 @@ public class NotRescuableObject : SaviorObject
         GameManager.Savior.IsCameraFollowing = false; //New Savior instantiated and camera have to go back to it's initial position.
         GameManager.Savior.HitToRescuable = false;
         GameManager.Savior.HitToNotRescuable = false;
+        _animator.SetTrigger("Idle");
         Destroy(GameObject.Find("Savior(Clone)"));
     }
 

@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RescuableObject : MonoBehaviour
+public class RescuableObject : SaviorObject
 {
-    private Vector3 _normalYPos, _underPlaneYPos;
-
-    private Vector3 _rightPoint, _leftPoint; // These variables are used for making the object move slightly.
-    private bool _moveTowardsRight, _moveTowardsLeft; // These variables are used for making the object move slightly.
+    private Vector3 _normalYPos, _underPlaneYPos, _initialYPos;
 
     private void Start()
     {
+        _initialYPos = transform.position;
+        _animator = gameObject.GetComponent<Animator>();
         var random = Random.Range(0f, 1f);
 
         if (random >= 0.5f)
@@ -33,15 +32,17 @@ public class RescuableObject : MonoBehaviour
 
     private void GetSwiping()
     {
-        _normalYPos = new Vector3(transform.position.x, 1f, transform.position.z);
-        _underPlaneYPos = new Vector3(_normalYPos.x, -1.5f, _normalYPos.z);
+        _normalYPos = new Vector3(transform.position.x, _initialYPos.y, transform.position.z);
+        _underPlaneYPos = new Vector3(_normalYPos.x, _initialYPos.y - 2.5f, _normalYPos.z);
 
         if (Input.GetKey(KeyCode.Space) && GameManager.Savior.Rescuable != null && GameManager.Savior.Rescuable.transform.position == gameObject.transform.position)
         {
+            _animator.SetTrigger("Rescuing");
             gameObject.transform.position = new Vector3 (transform.position.x, transform.position.y - 0.05f, transform.position.z);
         }
         else if (Vector3.Distance(gameObject.transform.position, _normalYPos) > 0.05f)
         {
+            _animator.SetTrigger("Idle");
             gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, _normalYPos, 0.025f);
         }
     }
@@ -76,5 +77,10 @@ public class RescuableObject : MonoBehaviour
             _moveTowardsRight = true;
             _moveTowardsLeft = false;
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+            _animator.SetTrigger("Sticked");
     }
 }
