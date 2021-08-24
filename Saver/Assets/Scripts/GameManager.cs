@@ -8,10 +8,12 @@ public class GameManager : MonoBehaviour
     public static SpawnSavior Spawn;
     public static SaviorClass Savior;
     public TextMeshProUGUI Level;
+
     private void Awake()
     {
         PlayerPrefs.SetInt("Level", 1);
     }
+
     void Start()
     {
         Spawn = new SpawnSavior(); //I declared _spawn in Start() because I use GameObject.Find() in SpawnSavior() and it's parent classes.

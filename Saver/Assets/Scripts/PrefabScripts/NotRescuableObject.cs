@@ -10,6 +10,8 @@ public class NotRescuableObject : SaviorObject
 
     private void Start()
     {
+        LayerMask = LayerMask.GetMask("Units");
+
         var random = Random.Range(0f, 1f);
 
         if(random >= 0.5f)
@@ -31,6 +33,9 @@ public class NotRescuableObject : SaviorObject
     {
         if (Input.GetMouseButtonUp(0))
         {
+            Debug.Log("Ray");
+            Debug.Log("RayLength: " + RayLength);
+            Debug.Log("LayerMask: " + LayerMask.value);
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -38,6 +43,7 @@ public class NotRescuableObject : SaviorObject
             {
                 if (gameObject.transform.position == hit.transform.position && _savior != null)
                 {
+                    Debug.Log("1111");
                     StartCoroutine(InstantiateNewSaviorAndDestroyTheOldOne());
                 }
             }

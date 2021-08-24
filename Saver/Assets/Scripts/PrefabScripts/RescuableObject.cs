@@ -58,7 +58,7 @@ public class RescuableObject : MonoBehaviour
     }
     private void Move()
     {
-        if (PlayerPrefs.GetInt("Level") <= 4 && Input.GetKey(KeyCode.Space))
+        if (PlayerPrefs.GetInt("Level") <= 4 || Input.GetKey(KeyCode.Space))
             return;
 
         if (_moveTowardsRight)
