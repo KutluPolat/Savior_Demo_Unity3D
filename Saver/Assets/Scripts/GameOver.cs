@@ -28,7 +28,15 @@ public class GameOver : MonoBehaviour
     }
     private void SetLivesText()
     {
-        if(PlayerPrefs.GetInt("Lives") == 3)
+        if (PlayerPrefs.GetInt("Lives") == 5)
+        {
+            LivesText.text = "♥♥♥♥♥";
+        }
+        else if (PlayerPrefs.GetInt("Lives") == 4)
+        {
+            LivesText.text = "♥♥♥♥";
+        }
+        else if(PlayerPrefs.GetInt("Lives") == 3)
         {
             LivesText.text = "♥♥♥";
         }
