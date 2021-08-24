@@ -90,8 +90,8 @@ public class RescuableObject : SaviorObject
     {
         if (Vector3.Distance(transform.position, _underPlaneYPos) < 0.2f)
         {
+            AudioManager.PlayMusicOrEffect("_saved");
             GameManager.Spawn.SpawnSaviorObject();
-
             GameManager.Spawn.RescuableUnits.Remove(gameObject);
             Destroy(gameObject);
         }

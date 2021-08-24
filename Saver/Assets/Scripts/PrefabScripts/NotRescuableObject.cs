@@ -63,6 +63,7 @@ public class NotRescuableObject : SaviorObject
                 if (gameObject.transform.position == hit.transform.position && _savior != null)
                 {
                     _animator.SetTrigger("VictoryPose");
+                    AudioManager.PlayMusicOrEffect("_punched");
                     GameObject.Find("Savior(Clone)").GetComponent<Animator>().SetTrigger("Punched");
                     StartCoroutine(InstantiateNewSaviorAndDestroyTheOldOne());
                 }

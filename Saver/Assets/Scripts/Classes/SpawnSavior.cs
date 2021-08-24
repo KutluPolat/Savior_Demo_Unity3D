@@ -21,7 +21,7 @@ public class SpawnSavior : SpawnUnits
     }
     public void SpawnSaviorObject()
     {
-        var SaviorObject = MonoBehaviour.Instantiate(Resources.Load("Savior"), _initialPlayerSpawnPoint, Quaternion.identity) as GameObject;
+        var SaviorObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/Savior"), _initialPlayerSpawnPoint, Quaternion.identity) as GameObject;
         SaviorObject.transform.parent = GameObject.Find("Saviors").transform;
     }
 }

@@ -66,6 +66,7 @@ public class GameOver : MonoBehaviour
     private IEnumerator Restart()
     {
         GameOverText.gameObject.SetActive(true);
+        AudioManager.PlayMusicOrEffect("_gameOver");
         RestartsInText.text = "The game will be restart in 3 seconds.";
         _time = 3f;
 

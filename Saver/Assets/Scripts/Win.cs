@@ -9,7 +9,6 @@ public class Win : MonoBehaviour
     public GameObject WinObject, NextLevelButton, Confettis;
 
     private bool _win = true;
-    
 
     void Update()
     {
@@ -31,6 +30,7 @@ public class Win : MonoBehaviour
     private IEnumerator Congratulations()
     {
         WinObject.SetActive(true);
+        AudioManager.PlayMusicOrEffect("_win");
         yield return new WaitForSeconds(1f);
         NextLevelButton.SetActive(true);
     }

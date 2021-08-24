@@ -32,7 +32,7 @@ public class SpawnUnits : SetSpawnableArea
             else
             {
                 _coordinatesOfUnits.Add((xPosition, zPosition)); //Adding used positions to _coordinatesOfUnits list so I can check overlapping later.
-                var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Rescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
+                var rescuableObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/Rescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
                 rescuableObject.transform.parent = GameObject.Find("Rescuables").transform;
                 RescuableUnits.Add(rescuableObject);
             }
@@ -52,7 +52,7 @@ public class SpawnUnits : SetSpawnableArea
             else
             {
                 _coordinatesOfUnits.Add((xPosition, zPosition));
-                var notRescuableObject = MonoBehaviour.Instantiate(Resources.Load("NotRescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
+                var notRescuableObject = MonoBehaviour.Instantiate(Resources.Load("Prefabs/NotRescuable"), new Vector3(xPosition, 0f, zPosition), Quaternion.Euler(0, 180, 0)) as GameObject;
                 notRescuableObject.transform.parent = GameObject.Find("NotRescuables").transform;
             }
         }

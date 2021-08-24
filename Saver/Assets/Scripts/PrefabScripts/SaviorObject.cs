@@ -70,6 +70,7 @@ public class SaviorObject : MonoBehaviour
         {
             case "Rescuable":
 
+                AudioManager.PlayMusicOrEffect("_stickedToRescuable");
                 _rescuableUnitThatSaviorSticked = other.gameObject;
                 _isSaviorHitToRescuable = true;
                 _isSaviorHitToNotRescuable = false; //This line of code is to improve robustness
@@ -82,6 +83,7 @@ public class SaviorObject : MonoBehaviour
 
             case "NotRescuable":
 
+                AudioManager.PlayMusicOrEffect("_stickedToNotRescuable");
                 _isSaviorHitToNotRescuable = true;
                 _isSaviorHitToRescuable = false; //Again, this line of code is to improve robustness
                 gameObject.transform.parent = other.transform;
