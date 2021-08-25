@@ -16,8 +16,6 @@ public class SpawnUnits : SetSpawnableArea
         _numberOfRescuableUnits = PlayerPrefs.GetInt("Level") * 3; //With these equations, there will be 60% of Rescuable and 40% of NotRescuable units in every level.
         _numberOfNotRescuableUnits = PlayerPrefs.GetInt("Level") * 2;
 
-        CheckPlaneSize();
-
         for (int i = 0; i < _numberOfRescuableUnits; i++)
         {
         tryagain:
@@ -69,16 +67,5 @@ public class SpawnUnits : SetSpawnableArea
         }
 
         return false;
-    }
-    private void CheckPlaneSize()
-    {
-        // If xbound*zbound is less than 60% of the unit count, the plane will get bigger.
-        var xBound = (int)Mathf.Abs(_xPositionMaximum - _xPositionMinimum);
-        var zBound = (int)Mathf.Abs(_zPositionMaximum - _zPositionMinimum);
-        
-        if(xBound*zBound*0.6f < _numberOfRescuableUnits + _numberOfNotRescuableUnits)
-        {
-            GameObject.Find("Plane(Grey)").transform.localScale = GameObject.Find("Plane(Grey)").transform.localScale * 1.1f;
-        }
     }
 }

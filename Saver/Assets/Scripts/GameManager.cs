@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private int _baseRescuableCount;
 
-    void Start()
+    private void Awake()
     {
         Spawn = new SpawnSavior(); //I declared _spawn in Start() because I use GameObject.Find() in SpawnSavior() and it's parent classes.
         Savior = new SaviorClass(FindObjectOfType<SaviorObject>());
